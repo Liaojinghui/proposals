@@ -1,25 +1,24 @@
 <pre>
   NEP: 1
-  Title: NEP Purpose and Guidelines
+  Title: NEP 指导手册
   Author: Erik Zhang <erik@neo.org>
   Type: Meta
   Status: Active
   Created: 2017-8-3
 </pre>
 
-==What is a NEP?==
+==什么是 NEP?==
 
-NEP stands for NEO Enhancement Proposal. An NEP is a design document providing information to the NEO community, or describing a new feature for NEO or its processes or environment. The NEP should provide a concise technical specification of the feature and a rationale for the feature. The NEP author is responsible for building consensus within the community and documenting dissenting opinions.
+NEP全称是NEO Enhancement Proposal。NEP是提交给NEO社区设计文档，可以用来为社区提供信息，也可以用来描述新特性的执行流程和运行环境。NEP需要提供详细的技术细节并证明其存在的合理性。NEP的作者需要负责帮助社区对于他提出的NEP达成共识，对于分歧和意见需要详细记录。
 
-==NEP Rational==
+==为什么用NEP==
 
-We intend NEPs to be the primary mechanisms for proposing new features, for collecting community input on an issue, and for documenting the design decisions that have gone into NEO. Because the NEPs are maintained as text files in a versioned repository, their revision history is the historical record of the feature proposal.
+NEP是我们为NEO增加新功能的基础机制，在github中以issue的形式集社区之思，然后记录下那些已经加入NEO的特性。因为NEP是以文本的形式保存在版本控制仓库中，它的每一次变更都会被记录下来，可以追溯。
+对于NEO开发人员来说，NEP可以很方便的帮助他们了解对应提案的实现进度。基本上每个NEP的维护人员都会把他们已实现的功能列出来，用户可以很方便的了解到这个NEP当前的状态。
 
-For NEO implementers, NEPs are a convenient way to track the progress of their implementation. Ideally each implementation maintainer would list the NEPs that they have implemented. This will give end users a convenient way to know the current status of a given implementation or library.
+==NEP 类型==
 
-==NEP Types==
-
-There are three types of NEP:
+三类 NEP:
 
 *A '''Standards Track''' NEP describes any change that affects most or all NEO implementations, such as a change to the network protocol, a change in block or transaction validity rules, proposed application standards/conventions, or any change or addition that affects the interoperability of applications using NEO.
 
@@ -27,7 +26,7 @@ There are three types of NEP:
 
 *A '''Meta''' NEP describes a process surrounding NEO or proposes a change to (or an event in) a process. Meta NEPs are like Standards Track NEPs but apply to areas other than the NEO protocol itself. They may propose an implementation, but not to NEO's codebase; they often require community consensus; unlike Informational NEPs, they are more than recommendations, and users are typically not free to ignore them. Examples include procedures, guidelines, changes to the decision-making process, and changes to the tools or environment used in NEO development.
 
-==NEP Work Flow==
+==NEP 工作流程==
 
 The NEP process begins with a new idea for NEO. It is highly recommended that a single NEP contain a single key proposal or new idea. The more focused the NEP, the more successful it tends to be. A change to one client doesn't require a NEP; a change that affects multiple clients, or defines a standard for multiple apps to use, does. The NEP editor reserves the right to reject NEP proposals if they appear too unfocused or too broad. If in doubt, split your NEP into several well-focused ones.
 
