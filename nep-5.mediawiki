@@ -10,86 +10,112 @@
 ==Abstract==
 
 The NEP-5 Proposal outlines a token standard for the NEO blockchain that will provide systems with a generalized interaction mechanism for tokenized Smart Contracts.  This mechanic, along with the justification for each feature are defined.  A template and examples are also provided to enable the development community.
+NEP-5提案概述了NEO区块链的Token标准，该标准将为系统提供一个Token的通用交互机制。该机制以及机制的每个功能和功能存在的理由都会在提案中介绍。本提案还提供了一个模板和示例以方便开发社区。
 
 ==Motivation==
 
 As the NEO blockchain scales, Smart Contract deployment and invocation will become increasingly important.  Without a standard interaction method, systems will be required to maintain a unique API for each contract, regardless of their similarity to other contracts.  Tokenized contracts present themselves as a prime example of this need because their basic operating mechanism is the same.  A standard method for interacting with these tokens relieves the entire ecosystem from maintaining a definition for basic operations that are required by every Smart Contract that employs a token.
+随着NEO区块链规模的扩大，智能合约的部署和调用将变得越来越重要。如果没有标准的交互手段，系统将需要为每个合约都维护一个单独的API，不管它们与其他合约是否相似。 Tokenized智能合约就是这种通用交互需求的一个例子，因为它们的基本操作机制是相同的。与这些Token进行交互的标准方法可以使整个NEO生态系统不需要为每一种代币智能合约都维护一份其所需的基本操作的定义。
 
 ==Specification==
 
 In the method definitions below, we provide both the definitions of the functions as they are defined in the contract as well as the invoke parameters.
+在下面的方法定义中，我们提供了合约中的函数的定义以及调用参数的定义。
 
 This standard defines two method types:
+该标准定义了两种方法类型：
 
 * '''(Required)''' : methods that are present on all NEP5 tokens.
+* ''' (必须)'''：所有NEP5 Token 中都有的方法。
 
 * '''(Optional)''' : methods that are optionally implemented on NEP5 tokens. These method types are not required for standard interfacing, and most tokens should not use them. All optional methods must be enabled if choosing to use them.
+* '''(可选)'''：可选地在NEP5 Token上实现的方法。标准接口不需要这些方法类型，大多数Token不应该使用。如果选择使用，则必须同时使用所有可选方法。
+
 
 ===Methods===
 
 ====totalSupply====
 
 * Syntax: <code>public static BigInteger totalSupply()</code>
+* 语法：<code> public static BigInteger totalSupply()</code>
 
 * Remarks: "totalSupply" returns the total token supply deployed in the system.
+* 备注：“totalSupply”返回系统中部署的总Token供应量。
 
 ====name====
 
 * Syntax: <code>public static string name()</code>
+* 语法：<code> public static string name()</code>
 
 * Remarks: "name" returns the token name.
-
+* 备注：“name”返回Token名称。
 
 ====symbol====
 
 * Syntax: <code>public static string symbol()</code>
+* 语法：<code> public static string symbol()</code>
 
 * Remarks: "symbol" returns the token symbol.
+* 备注：“符号”返回代币符号。
 
 ====decimals====
 
 * Syntax: <code>public static byte decimals()</code>
+* 语法：<code> public static byte decimals()</code>
 
 * Remarks: "decimals" returns the number of decimals used by the token.
+* 备注：“小数”返回代币使用的小数位数。
 
 ====balanceOf====
 
 * Syntax: <code>public static BigInteger balanceOf(byte[] account)</code>
+* 语法：<code> public static BigInteger balanceOf（byte [] account）</code>
 
 * Remarks: "balanceOf" returns the token balance of the '''account'''.
+* 备注：“balanceOf”返回'''账户'''的代币余额。
 
 ====transfer====
 
 * Syntax: <code>public static bool transfer(byte[] from, byte[] to, BigInteger amount)</code>
+* 语法：<code> public static bool transfer(byte [] from，byte [] to，BigInteger amount)</ code>
 
 * Remarks: "transfer" will transfer an '''amount''' of tokens from the '''from''' account to the '''to''' account.
+* 备注：「转账」会将'''amount'''数量的代币从'''from'''账户转移到'''to'''账户。
 
-====allowance ''(optional)''====
+====allowance ''(可选)''====
 
 * Syntax: <code>public static BigInteger allowance(byte[] from, byte[] to)</code>
+* 语法：<code> public static BigInteger allowance(byte [] from，byte [] to)</code>
 
 * Remarks: "allowance" will return the amount of tokens that the '''to''' account can transfer from the '''from''' acount.
+* 备注：“allowance”将返回'''to'''帐户可以从'''from'''帐户转移的代币数量。
 
-====transferFrom ''(optional)''====
+====transferFrom ''(可选)''====
 
 * Syntax: <code>public static bool transferFrom(byte[] originator, byte[] from, byte[] to, BigInteger amount)</code>
+* 语法：<code> public static bool transferFrom(byte [] originator，byte [] from，byte [] to，BigInteger amount)</code>
 
 * Remarks: "transferFrom" will transfer an '''amount''' from the '''from''' account to the '''to''' acount if the '''originator''' has been approved to transfer the requested '''amount'''.
+* 备注：如果'''originator'''已被批准转让，'transferFrom'将从'''from'''帐户转移'''amount'''数量的代币到'''to'''账户。
 
-====approve ''(optional)''====
+====approve ''(可选)''====
 
 * Syntax: <code>public static bool approve(byte[] originator, byte[] to, BigInteger amount)</code>
+*语法：<code> public static bool approve(byte [] originator，byte [] to，BigInteger amount)</code>
 
 * Remarks: "approve" will approve the '''to''' account to transfer '''amount''' tokens from the '''originator''' acount. 
+* 备注：“批准”将批准从'''originator'''账户转移'''amount'''数量的代币到'''to'''账户。
 
 ===Events===
 
 ====transfer====
 
 * Syntax: <code>public static event Action<byte[], byte[], BigInteger> transfer</code>
+* 语法：<code> public static event Action<byte [],byte [],BigInteger> transfer </code>
 
 * Remarks: The "transfer" event is raised after a successful execution of the "transfer" method.
-
+* 备注：“transfer”事件在成功执行“transfer”方法后触发。
+ 
 ==Implementation==
 
 *Woolong: https://github.com/lllwvlvwlll/Woolong

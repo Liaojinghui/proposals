@@ -1,6 +1,6 @@
 <pre>
   NEP: 4
-  Title: Dynamic Contract Invocation
+  Title: Dynamic Contract Invocation 动态合约调用
   Author: localhuman, unignorant
   Type: Standard
   Status: Final
@@ -10,12 +10,15 @@
 ==Abstract==
 
 This NEP Proposal outlines a mechanism whereby a Smart Contract is provided the ability to invoke other Smart Contracts not known until runtime, rather than being limited to invoking only Smart Contracts that are defined at compile time. In order to retain the ability for Smart Contracts to interface with a future Dynamic Sharding process, included is a proposed specification to be used in the creation of Smart Contracts to denote whether a Smart Contract needs the Dynamic Contract Invocation feature or not. 
+本NEP提案描述了了一种机制，通过这种机制，智能合约拥有了可以在运行前不知道其他合约内容直接调用其他合约的能力，而不仅仅调用在编译时定义的智能合约。为了保持智能合约与未来的动态分片过程兼容的能力，创建智能合约时需要说明智能合约是否需要动态合约调用的功能。
 
 ==Motivation==
 
 The motivation for this NEP is to give smart contract (SC) authors the ability to interface with SCs that are not known at compile time. For example, a SC that operates a decentralized exchange of NEP-5 tokens might call the <code>transferFrom</code> method of a token SC determined at runtime. At present, such a SC would need to hard-code all supported NEP-5 token addresses and be re-published whenever a new token is added. Many SCs on Ethereum require this feature, including any that adhere to the [https://github.com/ethereum/EIPs/issues/223 ERC223 token standard]. By giving SC authors the ability to specify at runtime an SC to interface with, functionality resembling that contained in more advanced Ethereum contracts would be much easier to develop and maintain.
+这个NEP的目的是让智能合约（SC）作者能够与编译时不知道详情的只能合约（SC）进行交互。例如，一个智能合约在分布式环境中交易nep5 代币的时候可能会调用只有在运行时才能确认的合约的<code> transferFrom </code>方法。目前，这种SC需要对所有支持的NEP-5代币地址进行硬编码，并且每当添加新代币时都要重新发布。以太坊上的许多SC需要此功能，包括遵守[https://github.com/ethereum/EIPs/issues/223 ERC223令牌标准]的所有功能。通过为SC作者提供在运行时指定SC进行交互的功能，类似于更高级的以太坊合约，将使SC更容易开发和维护。
 
 It is important to note that adding dynamic SC calls to NEO affects scalability. With dynamic SC calls, we no longer know in advance which other SCs will be called, and consequently the subset of VM state which must be available for execution to succeed. This makes dynamic sharding more difficult to implement. 
+需要注意的是，向NEO添加动态SC调用会影响扩展性。由于动态SC调用，我们将无法预先知道哪些SC会被调用，因此也就无法直到VM状态的子集，而要想合约执行成功，VM状态一定要是可用的。这使得动态分片更难以实现。
 
 To overcome the scalability drawback, this proposal adds a specification to each SC when it is created on the blockchain to denote whether it will need the dynamic calling feature or not. This specification will allow all existing contracts and the majority of future contracts to be executed in a storage context that is known in advance and thus more amenable to dynamic sharding, while also making SCs much more powerful and expressive.  
 
