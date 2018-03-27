@@ -77,7 +77,7 @@ This standard defines two method types:
 ====transfer====
 
 * Syntax: <code>public static bool transfer(byte[] from, byte[] to, BigInteger amount)</code>
-* 语法：<code> public static bool transfer(byte [] from，byte [] to，BigInteger amount)</ code>
+* 语法：<code> public static bool transfer(byte [] from，byte [] to，BigInteger amount)</code>
 
 * Remarks: "transfer" will transfer an '''amount''' of tokens from the '''from''' account to the '''to''' account.
 * 备注：「转账」会将'''amount'''数量的代币从'''from'''账户转移到'''to'''账户。

@@ -23,10 +23,10 @@ On the other hand, a standardized passphrase-protected private key format makes 
 ==Rationale==
 
 '''''User story:''' As a NEO user who uses paper wallets, I would like the ability to add encryption, so that my NEO paper storage can be two factor: something I have plus something I know.''
-'''' 用户案例：'''' 作为一个纸质钱包的NEO用户，我特别希望有一个私钥加密的功能，这样的话保存钱包就可以变成两件事：保存我有的（加密私钥）和记住我知道的（加密密码）。
+'''''用户案例：''' 作为一个纸质钱包的NEO用户，我特别希望有一个私钥加密的功能，这样的话保存钱包就可以变成两件事：保存我有的（加密私钥）和记住我知道的（加密密码）。''
 
 '''''User story:''' As a NEO user who would like to pay a person or a company with a private key, I do not want to worry that any part of the communication path may result in the interception of the key and theft of my funds. I would prefer to offer an encrypted private key, and then follow it up with the password using a different communication channel (e.g. a phone call or SMS).
-'''' 用户案例：'''' 当我想通过私钥向别人或企业转账的时候，我不想担心通讯过程中可能因为有人监听而获取我的私钥，进而偷走我的资产。我更希望先将加密过的密钥发送过去，然后通过另一种通讯手段传输密码（电话或者邮件）。
+''''' 用户案例：''' 当我想通过私钥向别人或企业转账的时候，我不想担心通讯过程中可能因为有人监听而获取我的私钥，进而偷走我的资产。我更希望先将加密过的密钥发送过去，然后通过另一种通讯手段传输密码（电话或者邮件）。
 
 ==Specification==
 

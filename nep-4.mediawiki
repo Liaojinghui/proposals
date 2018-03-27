@@ -10,7 +10,7 @@
 ==Abstract==
 
 This NEP Proposal outlines a mechanism whereby a Smart Contract is provided the ability to invoke other Smart Contracts not known until runtime, rather than being limited to invoking only Smart Contracts that are defined at compile time. In order to retain the ability for Smart Contracts to interface with a future Dynamic Sharding process, included is a proposed specification to be used in the creation of Smart Contracts to denote whether a Smart Contract needs the Dynamic Contract Invocation feature or not. 
-本NEP提案描述了了一种机制，通过这种机制，智能合约拥有了可以在运行前不知道其他合约内容直接调用其他合约的能力，而不仅仅调用在编译时定义的智能合约。为了保持智能合约与未来的动态分片过程兼容的能力，创建智能合约时需要说明智能合约是否需要动态合约调用的功能。
+本NEP提案描述了了一种机制，通过这种机制，智能合约拥有了可以在运行前不知道其他合约内容直接调用其他合约的能力，而不仅仅调用在编译时定义的智能合约。为了保持智能合约与未来的动态分片过程兼容的能力，创建智能合约时需要说明智能合约是否需要动态合约调用的功能。 
 
 ==Motivation==
 

@@ -76,7 +76,7 @@ Function对象有如下结构：
 <code> parameters </code>是一个Parameter对象的数组，它描述了函数中每个参数的详情。
 
 <code>returntype</code> indicates the return type of the function. It can be one of the following values: <code>Signature</code>, <code>Boolean</code>, <code>Integer</code>, <code>Hash160</code>, <code>Hash256</code>, <code>ByteArray</code>, <code>PublicKey</code>, <code>String</code>, <code>Array</code>, <code>InteropInterface</code>, <code>Void</code>.
-<code> returntype </code>表示函数的返回类型。 它可以是以下值之一：<code> Signature </code>，<code> Boolean </code>，<code> Integer </code>，<code> Hash160 </code>，<code> Hash256 < /code>，<code> ByteArray </code>，<code> PublicKey </code>，<code> String </code>，<code> Array </code>，<code> InteropInterface </code>,<code>void</code>。
+<code> returntype </code>表示函数的返回类型。 它可以是以下值之一：<code> Signature </code>，<code> Boolean </code>，<code> Integer </code>，<code> Hash160 </code>，<code> Hash256 </code>，<code> ByteArray </code>，<code> PublicKey </code>，<code> String </code>，<code> Array </code>，<code> InteropInterface </code>,<code>void</code>。
 
 ===Event===
 
