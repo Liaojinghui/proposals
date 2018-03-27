@@ -11,20 +11,24 @@
 ==Abstract==
 
 This NEP describes a wallet standard that allows the wallet files to be shared between the various implementations of NEO.
+该NEP描述了允许在NEO各种钱包应用之间通用的钱包标准。
 
 ==Motivation==
 
 Currently, different client programs generate different wallet files. They have different file formats, different ways of storing, and different ways of encrypting. It is difficult for users to migrate between different client programs because the wallet files are not in the same format. Although migration can be achieved by exporting the private key, it is cumbersome for wallets with multiple private keys. We need an universal wallet format that allows users to migrate across all platforms safely and easily without having to change the wallet file or export the private keys.
+当前，不同的NEO客户端钱包应用会生成不同格式的钱包文件。他们有不同的文件格式，不同的存储方式和不同的加密方式。由于钱包文件之间的兼容问题，用户难以在不同的客户端之间迁移。虽然可以通过导出私钥来实现移植，但对于拥有多个私钥的钱包来说却相当麻烦。我们需要定义一种通用的钱包格式，允许用户无需更改钱包文件或导出私钥即可安全轻松地在各种钱包之间进行迁移。
 
 ==Rationale==
 
 The wallet standard should consider both security and cross-platform compatibility. For security, we require the implementations to use the NEP-2 mechanism to encrypt or decrypt the private keys. For cross-platform, we use the JSON format to describe the wallet files, so that the contents of the wallet files can be easily recognized on each platform.
+钱包标准应该考虑安全性和跨平台兼容性。为了安全起见，我们要求实现NEP-2机制来加密或解密私钥。为了跨平台，我们使用JSON格式来描述钱包文件，以便在所有平台上都可以轻松识别钱包文件的内容。
 
 ==Specification==
 
 ===Wallet===
 
 A wallet file in JSON format has the following basic structure:
+JSON格式的钱包文件具有以下基本结构：
 
 <pre>
 {
@@ -37,18 +41,24 @@ A wallet file in JSON format has the following basic structure:
 </pre>
 
 <code>name</code> is a label that the user has made to the wallet file.
+<code> name </code> 是用户对钱包文件设定的标签。
 
 <code>version</code> is currently fixed at <code>1.0</code> and will be used for functional upgrades in the future.
+<code> version </code>目前已被固定在<code> 1.0 </code>中，未来用于功能升级。
 
 <code>scrypt</code> is a ScryptParameters object which describe the parameters of SCrypt algorithm used for encrypting and decrypting the private keys in the wallet.
+<code> scrypt </code>是一个ScryptParameters对象，它描述了用于加密和解密钱包中私钥的Scrypt算法的参数。
 
 <code>accounts</code> is an array of Account objects which describe the details of each account in the wallet.
+<code> accounts </code>是一个Account对象数组，用于描述钱包中每个账户的详细信息。
 
 <code>extra</code> is an object that is defined by the implementor of the client for storing extra data. This field can be <code>null</code>.
+<code> extra </code>钱包应用开发者定义的用于存储额外数据的对象。该字段可以是<code> null </code>。
 
 ===ScryptParameters===
 
 ScryptParameters object has the following structure:
+ScryptParameters对象具有以下结构：
 
 <pre>
 {
@@ -59,14 +69,18 @@ ScryptParameters object has the following structure:
 </pre>
 
 <code>n</code> is a parameter that defines the CPU/memory cost. Must be a value 2^N.
+<code> n </code> 是定义CPU /内存成本的参数。必须是2 ^ N的值。
 
 <code>r</code> is a tuning parameter.
+<code> r </code>是一个设置块大小的参数。
 
 <code>p</code> is a tuning parameter (parallelization parameter). A large value of p can increase computational cost of SCrypt without increasing the memory usage.
+<code> p </code>是一个调整并行度的参数。大的p值可能会增加SCrypt的计算成本，但不会增加内存使用量。
 
 ===Account===
 
 Account object has the following structure:
+账户对象具有以下结构：
 
 <pre>
 {
@@ -81,22 +95,30 @@ Account object has the following structure:
 </pre>
 
 <code>address</code> is the base58 encoded address of the account.
+<code> address </code>是帐户的base58编码地址。
 
 <code>label</code> is a label that the user has made to the account.
+<code> label </code>是用户对该帐户设定的标签（别名）。
 
 <code>isDefault</code> indicates whether the account is the default change account.
+<code> isDefault </code>表示帐户是否为默认更改帐户。
 
 <code>lock</code> indicates whether the account is locked by user. The client shouldn't spend the funds in a locked account.
+<code> lock </code>标记帐户是否被用户锁定。客户端不应转出锁定账户里的资产。
 
 <code>key</code> is the private key of the account in the NEP-2 format. This field can be <code>null</code> (for watch-only address or non-standard address).
+<code> key </code>是NEP-2格式的帐户的私钥。该字段可以是<code> null </code>（仅限watch-only地址或非标准地址）。
 
 <code>contract</code> is a Contract object which describes the details of the contract. This field can be <code>null</code> (for watch-only address).
+<code> contract </code>是描述合约细节的Contract对象。这个字段可以是<code> null </code>（仅限watch-only地址）。
 
 <code>extra</code> is an object that is defined by the implementor of the client for storing extra data. This field can be <code>null</code>.
+<code> extra </code>是由客户端开发者定义的用于存储额外数据的对象。该字段可以是<code> null </code>。
 
 ===Contract===
 
 Contract object has the following structure:
+合约对象具有以下结构：
 
 <pre>
 {
@@ -107,14 +129,18 @@ Contract object has the following structure:
 </pre>
 
 <code>script</code> is the script code of the contract. This field can be <code>null</code> if the contract has been deployed to the blockchain.
+<code> script </code>是合约的脚本。如果合约已被部署到区块链，则该字段可以是<code> null </code>。
 
 <code>parameters</code> is an array of Parameter objects which describe the details of each parameter in the contract function. For more information about Parameter object, see the descriptions in [[nep-3.mediawiki|NEP-3: NeoContract ABI]].
+<code> parameters </code>是一个Parameter对象数组，描述了contract函数中每个参数的细节。有关Parameter对象的更多信息，参见[[nep-3.mediawiki | NEP-3：NeoContract ABI]]中的说明。
 
 <code>deployed</code> indicates whether the contract has been deployed to the blockchain.
+<code> deploy </code>表示合约是否已部署到区块链上。
 
 ==Backwards Compatibility==
 
 All old-format wallets should be able to be converted to this new JSON format easily. If these wallet files contain some extra data, they can be stored in the <code>extra</code> fileds.
+所有旧格式的钱包都应该能够轻松转换为这种新的JSON格式钱包。如果这些钱包文件包含一些额外的数据，它们可以存储在<code> extra </code>字段中。
 
 ==Implementation==
 
