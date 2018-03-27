@@ -10,94 +10,130 @@
 ==Abstract==
 
 A method is proposed for encrypting and encoding a passphrase-protected private key record in the form of a 58-character Base58Check-encoded printable string. Encrypted private key records are intended for use on paper wallets. Each record string contains all the information needed to reconstitute the private key except for a passphrase, and the methodology uses salting and scrypt to resist brute-force attacks.
+本提案通过密码将私钥加密，生成Base58Check编码的58字节加密字符串。加密后的密文信息可以记录在纸质钱包上。除了加密密码外，密文信息包含可以解密得到私钥的所有信息。该加密方案使用加盐和scrypt加密方案来抵御暴力破解。
 
 ==Motivation==
 
 Password and passphrase-protected private keys enable new practical use cases for sending assets from person to person. Someone wanting to send assets through postal mail could send a password-protected paper wallet and give the recipient the passphrase over the phone or e-mail, making the transfer safe from interception of either channel. A user of paper wallets could carry funded encrypted private keys while leaving a copy at home as an element of protection against accidental loss or theft. A user of paper wallets who leaves assets in a bank vault or safety deposit box could keep the password at home or share it with trusted associates as protection against someone at the bank gaining access to the paper wallets and spending from them. The foreseeable and unforeseeable use cases for password-protected private keys are numerous.
+密码和加密私钥为用户与用户之间的资产转移提供了新的使用场景。例如，人们可以通过邮件寄送加密过的纸质钱包，然后打电话或者发电子邮件告诉收款人密码，这样就可以避免私钥泄露。此外，把加密过的私钥记录在纸质钱包上，然后把纸质钱包存在银行保险箱然后把解密密码放在自己或者亲戚家里，可以避免银行里有人通过保存的私钥获取你的资产。将私钥加密保存的优点多的简直不可胜数。
 
 On the other hand, a standardized passphrase-protected private key format makes it possible to share private keys from different wallet clients.
+另一方面，标准通用加密算法加密过的私钥可以在不同的钱包客户端之间通用。
 
 ==Rationale==
 
 '''''User story:''' As a NEO user who uses paper wallets, I would like the ability to add encryption, so that my NEO paper storage can be two factor: something I have plus something I know.''
+'''' 用户案例：'''' 作为一个纸质钱包的NEO用户，我特别希望有一个私钥加密的功能，这样的话保存钱包就可以变成两件事：保存我有的（加密私钥）和记住我知道的（加密密码）。
 
 '''''User story:''' As a NEO user who would like to pay a person or a company with a private key, I do not want to worry that any part of the communication path may result in the interception of the key and theft of my funds. I would prefer to offer an encrypted private key, and then follow it up with the password using a different communication channel (e.g. a phone call or SMS).
+'''' 用户案例：'''' 当我想通过私钥向别人或企业转账的时候，我不想担心通讯过程中可能因为有人监听而获取我的私钥，进而偷走我的资产。我更希望先将加密过的密钥发送过去，然后通过另一种通讯手段传输密码（电话或者邮件）。
 
 ==Specification==
 
 This proposal makes use of the following functions and definitions:
+本提案使用下面的函数和定义：
 
 *'''AES256Encrypt, AES256Decrypt''', the simple form of the well-known AES block cipher without consideration for initialization vectors or block chaining. Each of these functions takes a 256-bit key and 16 bytes of input, and deterministically yields 16 bytes of output.
+*'''AES256Encrypt, AES256Decrypt''', 大名鼎鼎的AES块加密算法的简化版，移除了数组初始化和密码块连接的操作细节。每一个函数都是接收一个256字节输入和一个16字节输入，输出是固定长度的一个16字节。
 
 *'''SHA256''', a well-known hashing algorithm that takes an arbitrary number of bytes as input and deterministically yields a 32-byte hash.
+*'''SHA256''', 标准的SHA256算法，输入任意长度字节数组，输出32字节哈希值。
 
 *'''scrypt''', a well-known key derivation algorithm. It takes the following parameters: (string) password, (string) salt, (int) n, (int) r, (int) p, (int) length, and deterministically yields an array of bytes whose length is equal to the length parameter.
+*'''scrypt''', 著名的密钥衍生算法。接收如下输出： (string) password, (string) salt, (int) n, (int) r, (int) p, (int) length，输出一个长度和Length相同的字节数组。
 
 *'''Base58Check''', a method for encoding arrays of bytes using 58 alphanumeric characters commonly used in the NEO ecosystem.
+*'''Base58Check''', 在NEO系统中常用的Base58加密算法，将字节数组加密为长度为58的字母和数字组成的字符串。
 
 ===Prefix===
 
 It is proposed that the resulting Base58Check-encoded string start with a '6'. The number '6' is intended to represent, from the perspective of the user, "a private key that needs something else to be usable" - an umbrella definition that could be understood in the future to include keys participating in multisig transactions, and was chosen with deference to the existing prefix '5' most commonly observed in Wallet Import Format which denotes an unencrypted private key.
+生成的Base58Check编码的字符串以'6'开头。 从用户的角度来看，数字“6”意在表示 “需要别的东西才可用的私钥” - 这是一个笼统的解释，将来也可以理解为参与多签名交易的密钥，使用这个数字是因为在钱包的导入格式中，用于表示未加密私钥最常见前缀是'5'。
 
 It is proposed that the second character ought to give a hint as to what is needed as a second factor, and for an encrypted key requiring a passphrase, the uppercase letter P is proposed.
+密文的第二个字符应该提示解密需要的是什么，对于需要密码解密的加密密钥，建议使用大写字母P.
 
 To keep the size of the encrypted key down, no initialization vectors (IVs) are used in the AES encryption. Rather, suitable values for IV-like use are derived using scrypt from the passphrase and from using a 32-bit hash of the resulting NEO address as salt.
+为了保持加密密钥的大小，在AES加密中并不使用初始化矢量（IVs），而是使用来scrypt密钥衍生算法和NEO地址的32位散列作为盐来导出功能类似IV的值。
 
 ===Proposed specification===
 
 *Object identifier prefix: 0x0142. These are constant bytes that appear at the beginning of the Base58Check-encoded record, and their presence causes the resulting string to have a predictable prefix.
+*标识符前缀：0x0142。 这些是出现在Base58Check编码开始处的字节，为加密后的字符串提供可预测的前缀用于校验。
 
 *How the user sees it: 58 characters always starting with '6P'
+*用户如何识别: 密文总是以'6P'开始。
 
 *Count of payload bytes (beyond prefix): 37
+*载荷大小（前缀除外）：37
 
 **1 byte (flagbyte): always be 0xE0
+**1 字节（标记位）：总是0xE0
 
 **4 bytes: SHA256(SHA256(expected_neo_address))[0...3], used both for typo checking and as salt
+**4字节：SHA256(SHA256(expected_neo_address))[0...3]，即用于纠错，又用于加盐。
 
 **16 bytes: An AES-encrypted key material record (encryptedhalf1)
+**16字节：用于生成AES加密的密钥材料（encryptedhalf1）
 
 **16 bytes: An AES-encrypted key material record (encryptedhalf2)
+**16字节:用于生成AES加密的密钥材料(encryptedhalf2)
 
 *Range in base58check encoding (prefix 6PY):
+*base58check密文范围（前缀6PY）
 
 **Minimum value: 6PYJxKpVnkXUsnZAfD2B5ZsZafJYNp4ezQQeCjs39494qUUXLnXijLx6LG (based on 01 42 E0 plus thirty-six 00's)
+**最小值: 6PYJxKpVnkXUsnZAfD2B5ZsZafJYNp4ezQQeCjs39494qUUXLnXijLx6LG (基于 01 42 E0 乘 thirty-six 00's)
 
 **Maximum value: 6PYXg5tGnLYdXDRZiAqXbeYxwDoTBNthbi3d61mqBxPpwZQezJTvQHsCnk (based on 01 42 E0 plus thirty-six FF's)
+**最大值: 6PYXg5tGnLYdXDRZiAqXbeYxwDoTBNthbi3d61mqBxPpwZQezJTvQHsCnk (基于 01 42 E0 乘 thirty-six FF's)
 
 ===Encryption steps===
 
 #Compute the NEO address (ASCII), and take the first four bytes of SHA256(SHA256()) of it. Let's call this "addresshash".
+＃计算NEO地址（ASCII）并取其SHA256（SHA256（））的前四个字节。 我们称之为 “addresshash”。
 
 #Derive a key from the passphrase using scrypt
+#密码经过scrypt算法计算出一个key
 
 #*Parameters: passphrase is the passphrase itself encoded in UTF-8 and normalized using Unicode Normalization Form C (NFC). Salt is the addresshash from the earlier step, n=16384, r=8, p=8, length=64
+#*参数：passphrase是密码本身的UTF-8编码格式然后使用Unicode的范式C（NFC）进行标准化得到的。Salt（盐）就是是从早先一步的addresshash，n＝16384，r = 8，P =8， length= 64。
 
 #*Let's split the resulting 64 bytes in half, and call them derivedhalf1 and derivedhalf2.
+#*将上一步获得的64字节长度的结果分成两半,分别叫 derivedhalf1 和 derivedhalf2。
 
 #Do AES256Encrypt(block = privkey[0...15] xor derivedhalf1[0...15], key = derivedhalf2), call the 16-byte result encryptedhalf1
+#执行 AES256Encrypt(block = privkey[0...15] xor derivedhalf1[0...15], key = derivedhalf2), 将16字节加密结果取名 encryptedhalf1
 
 #Do AES256Encrypt(block = privkey[16...31] xor derivedhalf1[16...31], key = derivedhalf2), call the 16-byte result encryptedhalf2
+#执行 AES256Encrypt(block = privkey[16...31] xor derivedhalf1[16...31], key = derivedhalf2), 16字节结果取名为 encryptedhalf2
 
 The encrypted private key is the Base58Check-encoded concatenation of the following, which totals 39 bytes without Base58 checksum:
+加密密钥是下面数据连接后进行base58check编码的结果，总计39字节无base58校验：
 
 *0x01 0x42 + flagbyte + addresshash + encryptedhalf1 + encryptedhalf2
 
 ===Decryption steps===
 
 #Collect encrypted private key and passphrase from user.
+#获取用户输入的密码和私钥密文
 
 #Derive derivedhalf1 and derivedhalf2 by passing the passphrase and addresshash into scrypt function.
+#通过密码和addresshash经过scrypt算法获得 derivedhalf1 和 derivedhalf2。
 
 #Decrypt encryptedhalf1 and encryptedhalf2 using AES256Decrypt, merge the two parts and XOR the result with derivedhalf1 to form the plaintext private key.
+#通过AES256Decrypt解密encryptedhalf1和encryptedhalf2，将两者拼接然后与derivedhalf1进行异或操作来构造私钥明文
 
 #Convert that plaintext private key into a NEO address.
+#通过私钥获取NEO地址。
 
 #Hash the NEO address, and verify that addresshash from the encrypted private key record matches the hash. If not, report that the passphrase entry was incorrect.
+#哈希NEO地址，并验证addresshash是否与从私钥密文中获取的哈希值相匹配。如果不相同，就说明密码错误。
 
 ==Backwards Compatibility==
 
 Backwards compatibility is minimally applicable since this is a new standard that at most extends Wallet Import Format. It is assumed that an entry point for private key data may also accept existing formats of private keys (such as hexadecimal and Wallet Import Format); this draft uses a key format that cannot be mistaken for any existing one and preserves auto-detection capabilities.
+（这一句为google翻译，我没有很理解原文）向后兼容性是最低限度适用的，因为这是一个新的标准，最多可以扩展钱包导入格式。假设私有密钥数据的入口点也可以接受私有密钥的现有格式（如十六进制和钱包导入格式）；该草案使用的密钥格式不会被误认为是现有的任何格式，并且拥有了自动检错的功能。
 
 ==Test vectors==
 
