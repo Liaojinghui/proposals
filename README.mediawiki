@@ -1,11 +1,11 @@
 ==NEO Enhancement Proposals==
 
 NEO Enhancement Proposals (NEPs) describe standards for the NEO platform, including core protocol specifications, client APIs, and contract standards.
-
+NEO 提案书（NEP）描述了NEO平台的标准，包括核心协议规范、客户端API以及合约标准。
 ==Contributing==
 
 First review [[nep-1.mediawiki|NEP-1]]. Then clone the repository and add your NEP to it. There is a [[nep-X.mediawiki|template NEP here]]. Then submit a [https://github.com/neo-project/proposals/pulls Pull Request] to this repository.
-
+首先查阅[[nep-1.mediawiki | NEP-1]]。然后fork本仓库并添加您的NEP。这里有一个[[nep-X.mediawiki |模板NEP]]。之后提交您的[https://github.com/neo-project/proposals/pulls Pull Request]到这个仓库。
 ==Table of Contents==
 
 {| class="wikitable sortable" style="width: auto; text-align: center; font-size: smaller; table-layout: fixed;"
